@@ -1,4 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 目的
+Next.jsやFirebase Realtime Databaseを使った簡単なチャットアプリを作成し、データの連携の流れや仕組みを理解すること。
+
+# 使用技術
+- TypeScript
+- Next.js 
+- Firebase 
+- Chakra UI 
+
+# 開発環境
+- Node.js
+- pnpm
+- IntelliJ IDEA
+
+# 機能
+- Firebase Authenticationを使用したアカウントの作成  
+- Firebase Authenticationを使用した認証  
+- Firebase Realtime Databaseを使用したチャットの送信  
+- Firebase Realtime Databaseを使用したチャットの受信  
+
+
+# 開発手順
+### 1. Next.jsのセットアップ  
+```bash
+pnpm create next-app --typescript
+```
+
+
+### 2. Chakra UIのセットアップ
+```bash
+pnpm add @chakra-ui/react @emotion/react @emotion/styled framer-motion
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```bash
+remove-item -recurse -force ディレクトリ名
+```
+
+
+<br />
+
+
+<!-- This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
@@ -33,4 +88,4 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details. -->
