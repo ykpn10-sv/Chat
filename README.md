@@ -39,12 +39,20 @@ pnpm add @chakra-ui/react @emotion/react @emotion/styled framer-motion
 
 
 
+pnpm v10 からインストール後のスクリプト (postinstall) をデフォルトで実行しなくなったので、インストール後にビルドする必要があるライブラリなどで不具合が発生することがある。  
+以下のコマンドを実行することで、拒否されたライブラリから選択してスクリプトを実行できる。  
+```bash
+pnpm approve-builds
+```
 
+## PowerShellコマンド
+### ファイル/ディレクトリ追加
+```bash
+New-Ttem -ItemType Faile 
+```
+※Linuxでいうtouchのこと
 
-
-
-
-
+### ファイル/ディレクトリ削除
 ```bash
 remove-item -recurse -force ディレクトリ名
 ```
