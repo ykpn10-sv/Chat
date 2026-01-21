@@ -41,15 +41,19 @@ export const Page = () => {
     const [message, setMessage] = useState<string>('')
     // ボタンが押下されたときの処理
     const handleSendMessage = async (e: FormEvent<HTMLFormElement>) => {
+        // ボタン押下デフォルトのイベント動作をキャンセルする
         e.preventDefault()
+
         try {
-            // firebaseにメッセージを保存
+            // firebaseに接続
             const db = getDatabase()
             const dbRef = ref(db, 'chat')
+            // 新規データを保存
             await push(dbRef, {
                 message,
         })
-        setMessage('')
+            // 入力欄を空にする
+            setMessage('')
         } catch (e) {
             // エラーがあればログに出す
             if (e instanceof FirebaseError) {
@@ -63,11 +67,13 @@ export const Page = () => {
 
     useEffect(() => {
         try {
-        const db = getDatabase()
-        const dbRef = ref(db, 'chat')
-        return onChildAdded(dbRef, (snapshot) => {
-            const message = String(snapshot.val()['message'] ?? '')
-            setChats((prev) => [...prev, { message }])
+            // firebaseに接続
+            const db = getDatabase()
+            const dbRef = ref(db, 'chat')
+            
+            return onChildAdded(dbRef, (snapshot) => {
+                const message = String(snapshot.val()['message'] ?? '')
+                setChats((prev) => [...prev, { message }])
         })
         } catch (e) {
         if (e instanceof FirebaseError) {

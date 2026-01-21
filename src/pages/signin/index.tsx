@@ -17,20 +17,30 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { FirebaseError } from 'firebase/app'
 
 export const Page = () => {
+    // 入力されたメールアドレスをreactで管理
     const [email, setEmail] = useState<string>('')
+    // 入力されたパスワードをreactで管理
     const [password, setPassword] = useState<string>('')
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    // 画面に出てくる通知（トースト機能）
     const toast = useToast()
 
+    // ログインボタン押下された時の処理
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+
+        // データ読み込み時にLoading画面を出す
         setIsLoading(true)
         e.preventDefault()
         
         try {
+            // firebase authenticationに接続
             const auth = getAuth()
+            // メールアドレス、パスワードがあればログインする
             await signInWithEmailAndPassword(auth, email, password)
+
             setEmail('')
             setPassword('')
+
             toast({
                 title: 'ログインしました。',
                 status: 'success',
@@ -47,8 +57,8 @@ export const Page = () => {
                 console.log(e)
             }
             } finally {
-                setIsLoading(false)
-                
+              // データ読み込み終了
+              setIsLoading(false)              
             }
     }
 

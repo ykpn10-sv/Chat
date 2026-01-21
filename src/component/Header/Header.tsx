@@ -1,24 +1,44 @@
-import { Button, chakra, Container, Heading } from '@chakra-ui/react'
-import { useToast } from '@chakra-ui/react'
+import {
+  Avatar,
+  Button,
+  chakra,
+  Container,
+  Flex,
+  Heading,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Spacer,
+  useToast,
+} from '@chakra-ui/react'
+
 import { useAuthContext } from '@src/feature/auth/provider/AuthProvider'
 import { FirebaseError } from 'firebase/app'
 import { getAuth, signOut } from 'firebase/auth'
-import { useState } from 'react'
-import { useRouter } from 'next/router'
+import { Navigate } from '@src/component/Navigate/Navigate'
+import { useRouter } from '@src/hooks/useRouter/useRouter'
+
+
 
 // 認証データを取得
 export const Header = () => {
 
+    // ログイン中のユーザーを取得
     const { user } = useAuthContext()
-    const [isLoading, setIsLoading] = useState<boolean>(false)
+    // 画面に出てくる通知（トースト機能）
     const toast = useToast()
+    // 画面遷移
     const { push } = useRouter()
 
+    // サインアウトボタン押下の処理
     const handleSignOut = async () => {
-        setIsLoading(true)
 
         try {
+
+            // firebase authの認証
             const auth = getAuth()
+            // ログアウトをする
             await signOut(auth)
 
             toast({
@@ -27,32 +47,47 @@ export const Header = () => {
                 position: 'top',
             })
 
-            push('/signin')
+            // ログアウト後、サインインページへ
+            push((path) => path.signin.$url())
         } catch (e) {
+            // エラーが出たらコンソールログに表示
             if (e instanceof FirebaseError) {
                 console.log(e)
             }
-        } finally {
-            setIsLoading(false)
         }
     }
     
   return (
     <chakra.header py={4} bgColor={'blue.600'}>
       <Container maxW={'container.lg'}>
-        <Heading color={'white'}>
+        <Flex>
+        <Navigate href={(path) => path.$url()}>
+          <chakra.a
+            _hover={{
+               opacity: 0.8,
+            }}
+          >
+            <Heading color={'white'}>Firebase Realtime Chat</Heading>
+          </chakra.a>
+        </Navigate> 
+          <Spacer aria-hidden />
           {user ? (
-            <Button
-              colorScheme={'teal'}
-              onClick={handleSignOut}
-              isLoading={isLoading}
-            >
-                サインアウト
-            </Button>
+            <Menu>
+              <MenuButton>
+                <Avatar flexShrink={0} width={10} height={10} />
+              </MenuButton>
+              <MenuList py={0}>
+                <MenuItem onClick={handleSignOut}>サインアウト</MenuItem>
+              </MenuList>
+            </Menu>
           ) : (
-            'ログアウト中'
+            <Navigate href={(path) => path.signin.$url()}>
+              <Button as={'a'} colorScheme={'teal'}>
+                サインイン
+              </Button>
+            </Navigate>
           )}
-        </Heading>
+        </Flex>
       </Container>
     </chakra.header>
   )
