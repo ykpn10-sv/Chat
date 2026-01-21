@@ -10,7 +10,7 @@ type Props = {
 
 export const Navigate = ({ href, children }: Props) => {
   return (
-    <Link href={typeof href === 'function' ? href(pagesPath) : href} passHref>
+    <Link href={typeof href === 'function' ? href(pagesPath) : href} passHref legacyBehavior >
       {children}
     </Link>
   )

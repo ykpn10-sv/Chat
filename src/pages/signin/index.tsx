@@ -15,6 +15,7 @@ import {
 import { FormEvent, useState } from 'react'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import { FirebaseError } from 'firebase/app'
+import { useRouter } from '@src/hooks/useRouter/useRouter'
 
 export const Page = () => {
     // 入力されたメールアドレスをreactで管理
@@ -24,6 +25,7 @@ export const Page = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     // 画面に出てくる通知（トースト機能）
     const toast = useToast()
+    const { push } = useRouter()
 
     // ログインボタン押下された時の処理
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -46,7 +48,10 @@ export const Page = () => {
                 status: 'success',
                 position: 'top',
             })
-            //TODO: ログイン後のページに遷移の処理を書く
+
+            // ログイン後、チャットページへ
+            push((path) => path.chat.$url())
+
         } catch (e) {
             toast({
                 title: 'エラーが発生しました。',

@@ -10,13 +10,14 @@ import {
     Spacer,
     Text,
 } from '@chakra-ui/react'
-import { FormEvent, useState, useEffect } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 import { getDatabase, push, ref, onChildAdded } from 'firebase/database'
 import { FirebaseError } from 'firebase/app'
+import { AuthGuard } from '@src/feature/auth/component/AuthGuard/AuthGuard'
 
-
-const _message = '確認用メッセージです。'
-const _messages = [...Array(10)].map((_, i) => _message.repeat(i + 1))
+// テスト用
+// const _message = '確認用メッセージです。'
+// const _messages = [...Array(10)].map((_, i) => _message.repeat(i + 1))
 
 type MessageProps = {
   message: string
@@ -35,8 +36,8 @@ const Message = ({ message }: MessageProps) => {
   )
 }
 
-
 export const Page = () => {
+    const messagesElementRef = useRef<HTMLDivElement | null>(null)
     // 入力されたメッセージをreactで管理
     const [message, setMessage] = useState<string>('')
     // ボタンが押下されたときの処理
@@ -60,7 +61,6 @@ export const Page = () => {
                 console.log(e)
             }
         }
-        
     }
 
     const [chats, setChats] = useState<{ message: string }[]>([])
@@ -69,10 +69,14 @@ export const Page = () => {
         try {
             // firebaseに接続
             const db = getDatabase()
+            // データベースに保存しているchatを用意
             const dbRef = ref(db, 'chat')
             
+            // 新しいチャットが追加されたら
             return onChildAdded(dbRef, (snapshot) => {
+                // データを取得
                 const message = String(snapshot.val()['message'] ?? '')
+                // チャットに表示
                 setChats((prev) => [...prev, { message }])
         })
         } catch (e) {
@@ -84,21 +88,44 @@ export const Page = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    // メッセージを送信するたびに最新のチャットを表示する
+    useEffect(() => {
+        messagesElementRef.current?.scrollTo({
+        top: messagesElementRef.current.scrollHeight,
+        })
+    }, [chats])
+
   return (
-    <Container py={14}>
-        <Heading>チャット</Heading>
-        <Spacer height={4} aria-hidden />
-        <Flex flexDirection={'column'} overflowY={'auto'} gap={2} height={400}>
-        {chats.map((chat, index) => (
-          <Message message={chat.message} key={`ChatMessage_${index}`} />
-        ))}
-        </Flex>
-        <Spacer height={2} aria-hidden />
-        <chakra.form display={'flex'} gap={2} onSubmit={handleSendMessage}>
-            <Input value={message} onChange={(e) => setMessage(e.target.value)} />
-            <Button type={'submit'}>送信</Button>
-        </chakra.form>
-    </Container>
+    // 認証状態を確認
+    <AuthGuard>
+        <Container
+            py={14}
+            flex={1}
+            display={'flex'}
+            flexDirection={'column'}
+            minHeight={0}
+        >
+            <Heading>チャット</Heading>
+            <Spacer flex={'none'} height={4} aria-hidden />
+            <Flex
+            flexDirection={'column'}
+            overflowY={'auto'}
+            gap={2}
+            height={400}
+            ref={messagesElementRef}
+            >
+            {chats.map((chat, index) => (
+                <Message message={chat.message} key={`ChatMessage_${index}`} />
+            ))}
+            </Flex>
+            <Spacer aria-hidden />
+            <Spacer height={2} aria-hidden flex={'none'} />
+            <chakra.form display={'flex'} gap={2} onSubmit={handleSendMessage}>
+                <Input value={message} onChange={(e) => setMessage(e.target.value)} />
+                <Button type={'submit'}>送信</Button>
+            </chakra.form>
+        </Container>
+    </AuthGuard>
   )
 }
 
