@@ -21,23 +21,31 @@ import {
 import { FirebaseError } from 'firebase/app'
 
 export const Page = () => {
+    // 入力されたメールアドレスをreactで管理
     const [email, setEmail] = useState<string>('')
+    // 入力されたパスワードをreactで管理
     const [password, setPassword] = useState<string>('')
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    // 画面に出てくる通知（トースト機能）
     const toast = useToast()
 
     // ボタンが押されたら
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+
+        // データ読み込み時にLoading画面を出す
         setIsLoading(true)
         e.preventDefault()
+
         try {
-            // 新規のアカウント作成
+            // firebase authenticationに接続
             const auth = getAuth()
+            // 入力されたメールアドレス、パスワードをfirebase authenticationに登録
             const userCredential = await createUserWithEmailAndPassword(
                 auth,
                 email,
                 password
             )
+
             // 確認メールを送る処理
             await sendEmailVerification(userCredential.user)
             setEmail('')
@@ -58,6 +66,7 @@ export const Page = () => {
                 console.log(e)
             }
             } finally {
+                // データ読み込み終了
                 setIsLoading(false)
             }
         }
