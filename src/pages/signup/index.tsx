@@ -19,6 +19,7 @@ import {
   sendEmailVerification,
 } from 'firebase/auth'
 import { FirebaseError } from 'firebase/app'
+import { useRouter } from '@src/hooks/useRouter/useRouter'
 
 export const Page = () => {
     // 入力されたメールアドレスをreactで管理
@@ -28,6 +29,9 @@ export const Page = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     // 画面に出てくる通知（トースト機能）
     const toast = useToast()
+    // 画面遷移するためのルーターを用意
+    const { push } = useRouter()
+    
 
     // ボタンが押されたら
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -56,6 +60,9 @@ export const Page = () => {
                 position: 'top',
             })
 
+            // サインアップ後、チャットページへ
+            push((path) => path.chat.$url())
+
         } catch (e) {
             toast({
                 title: 'エラーが発生しました。',
@@ -74,7 +81,9 @@ export const Page = () => {
 
   return (
     <Container py={14}>
-      <Heading>サインアップ</Heading>
+      <Center>
+        <Heading mb={8} fontSize={30} color="gray.600">サインアップ</Heading>
+      </Center>
       <chakra.form onSubmit={handleSubmit}>
         <Spacer height={8} aria-hidden />
         <Grid gap={4}>
