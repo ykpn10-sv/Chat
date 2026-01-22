@@ -62,7 +62,7 @@ export const Page = () => {
 
             // サインアップ後、チャットページへ
             push((path) => path.chat.$url())
-            
+
         } catch (e) {
             toast({
                 title: 'エラーが発生しました。',
@@ -81,7 +81,9 @@ export const Page = () => {
 
   return (
     <Container py={14}>
-      <Heading>サインアップ</Heading>
+      <Center>
+        <Heading mb={8} fontSize={30} color="gray.600">サインアップ</Heading>
+      </Center>
       <chakra.form onSubmit={handleSubmit}>
         <Spacer height={8} aria-hidden />
         <Grid gap={4}>

@@ -9,6 +9,7 @@ import {
     Input,
     Spacer,
     Text,
+    Center,
 } from '@chakra-ui/react'
 import { FormEvent, useEffect, useRef, useState } from 'react'
 import { getDatabase, push, ref, onChildAdded } from 'firebase/database'
@@ -105,7 +106,9 @@ export const Page = () => {
             flexDirection={'column'}
             minHeight={0}
         >
-            <Heading>チャット</Heading>
+            <Center>
+                <Heading mb={8} fontSize={30} color="gray.600">チャット</Heading>
+            </Center>
             <Spacer flex={'none'} height={4} aria-hidden />
             <Flex
             flexDirection={'column'}

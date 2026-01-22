@@ -70,8 +70,9 @@ export const Page = () => {
    
   return (
     <Container py={14}>
-      <Heading>サインイン</Heading>
-
+      <Center>
+        <Heading mb={8} fontSize={30} color="gray.600">サインイン</Heading>
+      </Center>
       <chakra.form onSubmit={handleSubmit}>
 
         <Spacer height={8} aria-hidden />

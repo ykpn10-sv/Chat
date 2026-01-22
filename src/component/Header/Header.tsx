@@ -58,7 +58,7 @@ export const Header = () => {
     }
     
   return (
-    <chakra.header py={4} bgColor={'blue.600'}>
+    <chakra.header py={4} bgColor={'teal.700'}>
       <Container maxW={'container.lg'}>
         <Flex>
         <Navigate href={(path) => path.$url()}>
@@ -67,7 +67,7 @@ export const Header = () => {
                opacity: 0.8,
             }}
           >
-            <Heading color={'white'}>Firebase Realtime Chat</Heading>
+            <Heading color={'white'} fontSize="lg">Firebase Realtime Chat</Heading>
           </chakra.a>
         </Navigate> 
           <Spacer aria-hidden />
