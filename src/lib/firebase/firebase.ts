@@ -20,8 +20,11 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// const app = initializeApp(firebaseConfig);
 
 // initializeAppを_app.tsxで呼び、firebaseをアプリで初期化
 export const initializeFirebaseApp = () =>
   !getApps().length ? initializeApp(firebaseConfig) : getApp()
+
+export const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+

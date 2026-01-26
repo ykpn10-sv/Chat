@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "build": "next build",
+    "export": "next build && next export",
     "dev": "run-p dev:* watch:*",
     "dev:next": "next dev",
     "build": "run-s generate:path build:next",
