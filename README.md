@@ -85,10 +85,12 @@ yarn add firebase
 - Firebase Authenticationと紐付ける
 - 各ページの作成
 
-
-
 <br />
 
+### 5. 作成したチャットアプリのデプロイ
+デプロイしたアプリはこちらで見れます：(https://fir-chat-63527.web.app/)
+
+<br />
 
 ### その他必要なコマンド
 
